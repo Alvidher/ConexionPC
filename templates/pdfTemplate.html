@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hoja de Servicio</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    font-size: 12px;
+  }
+
+  .encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .logo {
+    height: 100px;
+    margin-right: 30px;
+    margin-left: 10%;
+  }
+
+  .company-info {
+    margin-top: 10%;
+    line-height: 1.4;
+    font-size: 12px;
+  }
+
+  .company-info strong {
+    font-size: 13px;
+  }
+
+  .header-right {
+    text-align: left;
+    font-size: 12px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    
+  }
+
+  .service-table {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    width: 180px;
+    float: right;
+  }
+
+  .service-table td {
+    border: 1px solid #000;
+    padding: 2px 5px;
+  }
+
+  .department-label {
+    text-align: start;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+
+  td, th {
+    padding: 5px;
+    vertical-align: top;
+  }
+
+  .seccion-titulo {
+    background-color: #000;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding: 5px;
+  }
+
+  .caja {
+    border: 1px solid #000;
+    height: 60px;
+    padding: 5px;
+  }
+
+  .texto-legal {
+    font-size: 10px;
+    margin: 10px 0;
+  }
+
+  .firmas {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .firma {
+    width: 32%;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .firma img {
+    max-height: 50px;
+  }
+
+  .linea {
+    border-top: 1px solid black;
+    margin-top: 30px;
+  }
+</style>
+
+</head>
+<body>
+  <div class="encabezado">
+    <div class="header-left">
+      <img src="https://media.licdn.com/dms/image/v2/C4D0BAQG732qoZoVQAA/company-logo_200_200/company-logo_200_200/0/1630467242131/conexionpc_logo?e=2147483647&v=beta&t=8zUo5Fh8JTYb6x2USqJjVnm17Tta6xvDcDX72EvAgmg"
+          alt="Logo CPC" class="logo" />
+      <div class="company-info">
+        <strong>CONEXION PC</strong><br />
+        Concepción L. de Soria 52-9<br />
+        Col. San Benito<br />
+        Hermosillo, Sonora
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="title">HOJA DE SERVICIO</div>
+      <table class="service-table">
+        <tr>
+          <td><strong>No.</strong></td>
+          <td><%= ticket._id %></td>
+        </tr>
+        <tr>
+          <td><strong>FECHA</strong></td>
+          <td><%= ticket.creadoEn.toLocaleDateString() %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="department-label">Ingeniería y Soporte Técnico</div>
+
+  <br>
+
+  <table>
+    <tr><td><strong>Solicitó:</strong> <%= ticket.cliente %></td></tr>
+    <tr><td><strong>Ubicación:</strong> <%= ticket.ubicacion %></td></tr>
+    <tr><td><strong>Responsable:</strong> <%= ticket.responsable %></td></tr>
+    <tr><td><strong>Contacto del <br> responsable:</strong> <%= ticket.responsableContacto %></td></tr>
+    <tr><td><strong>Asunto:</strong> <%= ticket.asunto %></td></tr>
+  </table>
+
+  <div class="seccion-titulo">PROBLEMA, FALLA O REQUERIMIENTO</div>
+  <div class="caja"><%= ticket.descripcion %></div>
+
+  <div class="seccion-titulo">ACTIVIDADES REALIZADAS</div>
+  <div class="caja"><%= ticket.actividadesRealizadas %></div>
+
+  <div class="seccion-titulo">ACTIVIDADES ADICIONALES REQUERIDAS Y/O SUGERENCIAS</div>
+  <div class="caja"><%= ticket.actividadesAdicionales %></div>
+
+  <div class="texto-legal">
+    Todo servicio solicitado, que no esté incluido en los alcances del contrato de Servicio Integral de administración, operación, monitoreo, soporte y mantenimiento de la red de voz y datos en los inmuebles del ejecutivo estatal No. 03-1030000183-AD-225-AD, generará un costo adicional y se cubrirá bajo los términos comerciales negociados con la dependencia. El firmar la solicitud y conformidad, acepta los cargos que pueda generar el presente servicio.
+  </div>
+
+  <div class="firmas">
+    <div class="firma">
+      <% if (ticket.firmaTecnico) { %>
+        <img src="<%= ticket.firmaTecnico %>"><br>
+      <% } %>
+      <div class="linea"></div>
+      <br>Técnico que elaboró el servicio
+    </div>
+
+    <div class="firma">
+      <% if (ticket.firmaSolicitante) { %>
+        <img src="<%= ticket.firmaSolicitante %>"><br>
+      <% } %>
+      <div class="linea"></div>
+      <br>Firma del solicitante<br>
+      Nombre: <%= ticket.nombreSolicitante %><br>
+      Puesto: <%= ticket.puestoSolicitante %>
+    </div>
+
+    <div class="firma">
+      <% if (ticket.firmaConformidad) { %>
+        <img src="<%= ticket.firmaConformidad %>"><br>
+      <% } %>
+      <div class="linea"></div>
+      <br>Firma de conformidad del servicio entregado<br>
+      Nombre: <%= ticket.nombreConformidad %><br>
+      Puesto: <%= ticket.puestoConformidad %>
+    </div>
+  </div>
+</body>
+</html>
